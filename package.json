@@ -1,0 +1,31 @@
+{
+  "name": "@ajr-uribe/bedrock-lsp",
+  "version": "0.1.0",
+  "description": "LSP JSON for Minecraft Bedrock Add-ons",
+  "main": "dist/server.js",
+  "bin": {
+    "bedrock-lsp": "./dist/server.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node esbuild.mjs && chmod +x dist/server.js",
+    "pack": "pnpm run build && pnpm pack",
+    "watch": "tsc --watch",
+    "start": "node dist/server.js --stdio",
+    "check": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "minecraft-bedrock-schemas": "github:blockception/minecraft-bedrock-json-schemas#main",
+    "jsonc-parser": "^3.3.1",
+    "@types/node": "^22.20.2",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "vscode-json-languageservice": "5.3.1",
+    "vscode-languageserver": "^10.1.1",
+    "vscode-languageserver-textdocument": "^1.0.14"
+  }
+}
