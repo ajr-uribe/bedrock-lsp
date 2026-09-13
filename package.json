@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "build": "node esbuild.mjs && chmod +x dist/server.js",
+    "dev": "pnpm run build && pnpm run start",
     "pack": "pnpm run build && pnpm pack",
     "watch": "tsc --watch",
     "start": "node dist/server.js --stdio",

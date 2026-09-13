@@ -7,7 +7,9 @@ const schemasDir = path.join(__dirname, 'schemas');
 export function loadSchema(file: string): any {
   const fullPath = path.join(schemasDir, file);
   if (!fs.existsSync(fullPath)) {
-    console.warn(`[bedrock-lsp] No encontrado: ${fullPath}`);
+    process.stdout.write(
+      `\x1b[1;31m[bedrock-lsp] Schema Not Found: ${fullPath}\x1b[0m\n`
+    );
     return {};
   }
   return JSON.parse(fs.readFileSync(fullPath, 'utf-8'));
@@ -115,12 +117,14 @@ export const bedrockSchemas: {
   {
     uri: 'bedrock://schemas/rp/blocks',
     fileMatch: ['blocks.json'],
-    schema: loadSchema('resource/blocks.json')
+    schema: loadSchema('resource/blocks.json'),
   },
   {
     uri: 'bedrock://schemas/rp/culling',
     fileMatch: ['block_culling/*.json'],
-    schema: loadSchema('resource/block_culling/block_culling.json')
+    schema: loadSchema(
+      'resource/block_culling/block_culling.json'
+    ),
   },
   {
     uri: 'bedrock://schemas/rp/entity',
@@ -204,7 +208,9 @@ export const bedrockSchemas: {
   {
     uri: 'bedrock://schemas/rp/flipbook_textures',
     fileMatch: ['flipbook_texture.json'],
-    schema: loadSchema('resource/textures/flipbook_texture.json'),
+    schema: loadSchema(
+      'resource/textures/flipbook_textures.json'
+    ),
   },
   {
     uri: 'bedrock://schemas/rp/terrain_textures',
@@ -231,13 +237,13 @@ export const bedrockSchemas: {
   {
     uri: 'bedrock://schemas/water',
     fileMatch: ['water/water.json'],
-    schema: loadSchema('resource/water/water.json')
+    schema: loadSchema('resource/water/water.json'),
   },
 
   // --- SKINS ---
   {
     uri: 'bedrock://schemas/skins',
     fileMatch: ['skins.json'],
-    schema: loadSchema('resource/skinpacks/skins.json');
-  }
+    schema: loadSchema('skinpacks/skins.json'),
+  },
 ];

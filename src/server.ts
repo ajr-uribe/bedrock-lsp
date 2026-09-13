@@ -8,20 +8,21 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { getLanguageService } from 'vscode-json-languageservice/lib/esm/jsonLanguageService.js';
 import {
-  isUuidValueContext,
-  getUuidValueCompletion,
-  patchUuidKeyCompletions,
-} from './features/uuid';
+  patchPlaceholderKeyCompletions,
+  getPlaceholderValueCompletion,
+} from './features/handlePlaceholders';
 import { bedrockSchemas } from './loadSchemas.js';
 
-import { getSchemaRequestService } from './features/handleSchemaProtocol.js';
+import { createSchemaRequestService } from './features/handleSchemaProtocol.js';
 
 const connection = createConnection(ProposedFeatures.all);
 
 const documents = new TextDocuments(TextDocument);
 
+const schemaService = createSchemaRequestService();
+
 const jsonLanguageService = getLanguageService({
-  schemaRequestService: getSchemaRequestService(),
+  schemaRequestService: schemaService,
 });
 
 jsonLanguageService.configure({
@@ -51,7 +52,14 @@ async function validate(document: TextDocument) {
   connection.sendDiagnostics({ uri: document.uri, diagnostics });
 }
 
-documents.onDidChangeContent((c) => validate(c.document));
+documents.onDidChangeContent((e) => {
+  validate(e.document);
+});
+
+documents.onDidOpen((e) => {
+  validate(e.document);
+});
+
 documents.onDidClose((e) => {
   connection.sendDiagnostics({
     uri: e.document.uri,
@@ -61,16 +69,23 @@ documents.onDidClose((e) => {
 
 connection.onCompletion(async (params) => {
   const doc = documents.get(params.textDocument.uri);
-
   if (!doc) return null;
 
   const lineBefore = doc.getText({
-    start: {
-      line: params.position.line,
-      character: 0,
-    },
+    start: { line: params.position.line, character: 0 },
     end: params.position,
   });
+
+  const placeholderValue = getPlaceholderValueCompletion(
+    lineBefore,
+    doc.uri
+  );
+  if (placeholderValue) {
+    return {
+      isIncomplete: false,
+      items: [placeholderValue],
+    };
+  }
 
   const jsonDoc = jsonLanguageService.parseJSONDocument(doc);
   const base = await jsonLanguageService.doComplete(
@@ -78,13 +93,10 @@ connection.onCompletion(async (params) => {
     params.position,
     jsonDoc
   );
+
   const items = base?.items ?? [];
 
-  if (isUuidValueContext(lineBefore)) {
-    items.unshift(getUuidValueCompletion());
-  }
-
-  patchUuidKeyCompletions(items);
+  patchPlaceholderKeyCompletions(items, doc.uri);
 
   return {
     isIncomplete: false,
