@@ -24,16 +24,6 @@ export const bedrockSchemas: {
     schema: loadSchema('general/manifest.json'),
   },
   {
-    uri: 'bedrock://schemas/world_packs',
-    fileMatch: [
-      '**/world_manifest.json',
-      '**/world_behavior_packs.json',
-      '**/world_resource_packs.json',
-    ],
-    schema: loadSchema('general/world_x_packs.json'),
-  },
-
-  {
     uri: 'bedrock://schemas/bp/entity',
     fileMatch: ['entities/*.json'],
     schema: loadSchema('behavior/entities/entities.json'),
@@ -120,6 +110,18 @@ export const bedrockSchemas: {
     schema: loadSchema('behavior/cameras/presets/cameras.json'),
   },
 
+  // --- RESOURCE ---
+
+  {
+    uri: 'bedrock://schemas/rp/blocks',
+    fileMatch: ['blocks.json'],
+    schema: loadSchema('resource/blocks.json')
+  },
+  {
+    uri: 'bedrock://schemas/rp/culling',
+    fileMatch: ['block_culling/*.json'],
+    schema: loadSchema('resource/block_culling/block_culling.json')
+  },
   {
     uri: 'bedrock://schemas/rp/entity',
     fileMatch: ['*.entity.json', 'entity/*.json'],
@@ -195,9 +197,29 @@ export const bedrockSchemas: {
     schema: loadSchema('resource/items/items.json'),
   },
   {
-    uri: 'bedrock://schemas/rp/textures',
+    uri: 'bedrock://schemas/rp/item_textures',
     fileMatch: ['**/item_texture.json'],
     schema: loadSchema('resource/textures/item_texture.json'),
+  },
+  {
+    uri: 'bedrock://schemas/rp/flipbook_textures',
+    fileMatch: ['flipbook_texture.json'],
+    schema: loadSchema('resource/textures/flipbook_texture.json'),
+  },
+  {
+    uri: 'bedrock://schemas/rp/terrain_textures',
+    fileMatch: ['terrain_texture.json'],
+    schema: loadSchema('resource/textures/terrain_texture.json'),
+  },
+  {
+    uri: 'bedrock://schemas/rp/texture_set',
+    fileMatch: ['*.texture_set.json'],
+    schema: loadSchema('resource/textures/texture_set.json'),
+  },
+  {
+    uri: 'bedrock://schemas/rp/textures_list',
+    fileMatch: ['textures_list.json'],
+    schema: loadSchema('resource/textures/textures_list.json'),
   },
 
   {
@@ -205,4 +227,17 @@ export const bedrockSchemas: {
     fileMatch: ['texts/languages.json'],
     schema: loadSchema('language/languages.json'),
   },
+
+  {
+    uri: 'bedrock://schemas/water',
+    fileMatch: ['water/water.json'],
+    schema: loadSchema('resource/water/water.json')
+  },
+
+  // --- SKINS ---
+  {
+    uri: 'bedrock://schemas/skins',
+    fileMatch: ['skins.json'],
+    schema: loadSchema('resource/skinpacks/skins.json');
+  }
 ];

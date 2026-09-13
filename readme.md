@@ -15,7 +15,7 @@ Open `entities/zombie.json` and you get entity completions. Open `loot_tables` a
 All components, properties, and enum values from the latest Bedrock schemas. No more switching to the wiki.
 
 **Errors before you test in-game.**
-Missing peoperty? Wrong type in `minecraft:loot`? You see it instantly as a message in the editor, or a red underline depending on your editor, with a clear message.
+Missing property? Wrong type in `minecraft:loot`? You see it instantly as a message in the editor, or a red underline depending on your editor, with a clear message.
 
 **Docs on hover.**
 Hover any property to see what it does, what values it accepts, and its defaults. (subject to blockception schemas, I do not take responsibility for wrong or missing hover docs)

@@ -14,11 +14,15 @@ import {
 } from './features/uuid';
 import { bedrockSchemas } from './loadSchemas.js';
 
+import { getSchemaRequestService } from './features/handleSchemaProtocol.js';
+
 const connection = createConnection(ProposedFeatures.all);
 
 const documents = new TextDocuments(TextDocument);
 
-const jsonLanguageService = getLanguageService({});
+const jsonLanguageService = getLanguageService({
+  schemaRequestService: getSchemaRequestService(),
+});
 
 jsonLanguageService.configure({
   schemas: bedrockSchemas as any,

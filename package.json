@@ -2,6 +2,7 @@
   "name": "@ajr-uribe/bedrock-lsp",
   "version": "0.1.1",
   "description": "LSP JSON for Minecraft Bedrock Add-ons",
+  "funding": "https://ko-fi.com/ajr_uribe",
   "main": "dist/server.js",
   "bin": {
     "bedrock-lsp": "./dist/server.js"
